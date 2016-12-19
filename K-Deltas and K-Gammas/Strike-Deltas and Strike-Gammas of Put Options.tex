@@ -1,0 +1,296 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+
+\title{Expressions for Strike-Deltas and Strike-Gammas of European-style Put Options}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{paragraph}
+\indent \small These notes attempt to make accessible to the technically-curious retail trader the derivations of some expressions for the first and second derivatives of the European-style put option price with respect to strike. An understanding of these formulas is the basis for further study into options-implied Black-Scholes risk-neutral distributions. Sections I and II find formulas for the ``Strike-Delta'' (K-Delta) and ``Strike-Gamma'' (K-Gamma) in the contexts of Martingale Pricing and the Black-Scholes-Merton Pricing Model, respectively. The last section applies the method of finite-differencing to yield a third pair of identities which can be used to approximate these Greeks.
+\end{paragraph}
+
+\vspace{300pt}
+
+\begin{center} 
+\footnotesize J. Antonelli \\[3pt] December 2016
+\end{center}
+
+\pagebreak
+
+\section*{\large I. \indent K-Deltas and K-Gammas under Martingale Pricing}
+
+\vspace{15pt}
+
+\begin{paragraph}
+\indent Under the risk-neutral measure, $\mathbf{Q}$, the current price of a put option at strike $K$ can be written as the discounted expected value of the payoff function at expiration:
+\end{paragraph}
+
+\vspace{10pt}
+
+\begin{equation}
+\begin{aligned}[b]
+P(K)_{\hspace{1pt} \mathbf{Q}}   \hspace{4pt} \equiv& \hspace{7pt}   P(K, S_{T}, \tau, r)
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \mathbf{E^{Q}}[\hspace{2pt} max(K-S_{T},0) \hspace{2pt}] \hspace{3pt}.
+\end{aligned}
+\end{equation}
+
+\vspace{15pt}
+
+\indent Differentiating (1) with respect to $K$:
+
+\vspace{15pt}
+
+\begin{equation}
+\begin{aligned}[b]
+\frac{\partial P}{\partial K}_{\hspace{1pt}\mathbf{Q}}   \hspace{4pt} =& \hspace{7pt}   \frac{\partial}{\partial K}(\hspace{1pt} e^{-r \tau} * \mathbf{E^{Q}}[\hspace{2pt} max(K-S_{T},0) \hspace{2pt}] \hspace{1pt})
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \frac{\partial}{\partial K}(\int_{0}^{\infty} max(K-S_{T},0) * p(S_{T}) \hspace{2pt} dS_{T} \hspace{2pt} )
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \int_{0}^{K} \frac{\partial}{\partial K}(\hspace{1pt} (K-S_{T}) * p(S_{T}) \hspace{1pt}) \hspace{2pt} dS_{T}
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \int_{0}^{K} \frac{\partial}{\partial K}(K * p(S_{T})) + \frac{\partial}{\partial K}(-S_{T} * p(S_{T})) \hspace{2pt} dS_{T}
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \int_{0}^{K} p(S_{T}) \hspace{2pt} dS_{T} \hspace{3pt}.
+\end{aligned}
+\end{equation}
+
+\vspace{10pt}
+
+\begin{paragraph}
+\indent So, from this perspective, the K-Delta is the discounted risk-neutral probability of the option at strike $K$ expiring in-the-money. Differentiating (2) with respect to $K$, we have:
+\end{paragraph}
+
+\vspace{5pt}
+
+\begin{equation}
+\begin{aligned}[b]
+\frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{\hspace{2pt} \mathbf{Q}}   \hspace{4pt} =& \hspace{7pt}   \frac{\partial}{\partial K}(\hspace{1pt}  e^{-r \tau} * \int_{0}^{K} p(S_{T}) \hspace{2pt} dS_{T} \hspace{1pt})
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \frac{\partial}{\partial K}(\int_{0}^{K} p(S_{T}) \hspace{2pt} dS_{T} \hspace{1pt})
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * p(K) \hspace{3pt}.
+\end{aligned}
+\end{equation}
+
+\vspace{5pt}
+
+\begin{paragraph}
+\indent The expression for the second derivative follows directly from the fundamental theorem of calculus: the K-gamma is the discounted risk-neutral terminal PDF value at $K$.
+\end{paragraph}
+
+\begin{paragraph}
+\indent It's worth noting that the formulas above are model-agnostic. In the next section, a generalized version of the Black-Scholes model defines an explicit form for $p(K)$, but other pricing models may be used.
+\end{paragraph}
+
+\vspace{15pt}
+
+\section*{\large II. \indent Skew-Extended Black-Scholes K-Deltas and K-Gammas}
+
+\vspace{15pt}
+
+\begin{paragraph}
+\indent The original Black-Scholes-Merton formula for the value of a European-style put option assumes constant volatility across both the strike and time spaces. After 1987, market dynamics changed and options began to exhibit pronounced vertical and horizontal skew. One way vertical skew can be incorporated is to assume a functional form for the volatility parameter which is dependent on strike level. We have:
+\end{paragraph}
+
+\vspace{10pt}
+
+\begin{equation}
+\begin{aligned}[b]
+P(K)_{\hspace{1pt} \gamma}   \hspace{4pt} \equiv& \hspace{7pt}   P(K, S_{t}, \tau, r, \sigma(K), D)
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} *  K * \Phi(-d_{2_{\hspace{1pt} \gamma}}) - e^{-D \tau} * S_{t} * \Phi(-d_{1_{\hspace{1pt} \gamma}}) \hspace{3pt},
+\end{aligned}
+\end{equation}
+
+\vspace{3pt}
+
+\begin{flushleft}
+where
+\end{flushleft}
+
+\vspace{-20pt}
+
+\begin{flalign}
+\indent \Phi(x)   \hspace{2pt} = \hspace{4pt}   \frac{1}{\sqrt{2 \pi}} * \int_{-\infty}^{x} e^{-\frac{\eta^{2}}{2}} \hspace{2pt} d\eta \hspace{3pt}, &&
+\end{flalign}
+
+\vspace{-5pt}
+
+\begin{flushleft}
+and
+\end{flushleft}
+
+\vspace{-25pt}
+
+\begin{flalign}
+\indent d_{1_{\hspace{1pt} \gamma}}   \hspace{2pt} = \hspace{4pt}   \frac{ln(\frac{S_{t}}{K}) + (r-D+\frac{\sigma(K)^{2}}{2}) * \tau}{\sigma(K) \sqrt{\tau}}   \hspace{2pt} = \hspace{4pt}   d_{2_{\hspace{1pt} \gamma}} + \sigma(K) \sqrt{\tau} \hspace{3pt}. &&
+\end{flalign}
+
+\vspace{7pt}
+
+\begin{paragraph}
+\indent Before finding the Strike-Delta in this framework, we'll establish a useful relationship involving a derivative of (5) and (6).
+\end{paragraph}
+
+\vspace{5pt}
+
+{\footnotesize
+\begin{flalign*}
+\frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K}   \hspace{4pt} =& \hspace{7pt}   \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{1_{\hspace{1pt} \gamma}})} * \frac{\partial (-d_{1_{\hspace{1pt} \gamma}})}{\partial K}
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   (\frac{1}{\sqrt{2 \pi}} * e^{\frac{-(-d_{1_{\hspace{1pt} \gamma}})^{2}}{2}}) * \frac{\partial (-d_{1_{\hspace{1pt} \gamma}})}{\partial K}
+\\[12pt] \displaybreak
+\hspace{4pt} =& \hspace{7pt}   (\frac{1}{\sqrt{2 \pi}} * e^{\frac{-(-d_{2_{\hspace{1pt} \gamma}} - \sigma(K) \sqrt{\tau})^{2}}{2}}) * \frac{\partial}{\partial K}(-d_{2_{\hspace{1pt} \gamma}} - \sigma(K) \sqrt{\tau})
+\\
+\hspace{4pt} =& \hspace{7pt}   (\frac{1}{\sqrt{2 \pi}} * e^{\frac{-(d_{2_{\hspace{1pt} \gamma}})^{2} - 2*d_{2_{\hspace{1pt} \gamma}} \sigma(K) \sqrt{\tau} - (\sigma(K) \sqrt{\tau})^{2}}{2}}) * (\frac{\partial}{\partial K} (-d_{2_{\hspace{1pt} \gamma}}) - \frac{\partial \hspace{1pt}}{\partial K} (\sigma(K) \sqrt{\tau}) \hspace{1pt})
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   (\frac{1}{\sqrt{2 \pi}} * e^{\frac{-(d_{2_{\hspace{1pt} \gamma}})^{2}}{2}}) * e^{-(ln(\frac{S_{t}}{K}) + (r-D-\frac{\sigma(K)^{2}}{2}) * \tau) - (\frac{\sigma(K)^{2} \tau}{2})} * (\frac{\partial (-d_{2_{\hspace{1pt} \gamma}})}{\partial K} - \frac{\partial \hspace{1pt} \sigma(K)}{\partial K} \hspace{1pt} \sqrt{\tau})
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * (\frac{1}{(\frac{S_{t}}{K})} * e^{-r \tau} * e^{D \tau}) * e^{(\frac{\sigma(K)^{2} \tau}{2}) - (\frac{\sigma(K)^{2} \tau}{2})} * (\frac{\partial (-d_{2_{\hspace{1pt} \gamma}})}{\partial K} - \frac{\partial \hspace{1pt} \sigma(K)}{\partial K} \hspace{1pt} \sqrt{\tau})
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})} * (\frac{e^{-r \tau} * K}{e^{-D \tau} * S_{t}}) * (\frac{\partial (-d_{2_{\hspace{1pt} \gamma}})}{\partial K} - \frac{\partial \hspace{1pt} \sigma(K)}{\partial K} \hspace{1pt} \sqrt{\tau})
+\\[12pt]
+\hspace{4pt} \implies& \hspace{7pt}
+\\[12pt]
+e^{-D \tau} * S_{t} * \frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K}   \hspace{4pt} =& \hspace{7pt}   (e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})}) * \frac{\partial (-d_{2_{\hspace{1pt} \gamma}})}{\partial K} - (e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})}) * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K} \hspace{1pt} \sqrt{\tau}
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K} - (e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \sqrt{\tau}) * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K} - (\frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
+\\[12pt]
+\hspace{4pt} \implies& \hspace{7pt}
+\\[25pt]
+\frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}   \hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K} - e^{-D \tau} * S_{t} * \frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K} \hspace{3pt}. \hspace{123pt} (7)
+\end{flalign*}
+}
+
+\vspace{-5pt}
+
+\begin{paragraph}
+\indent An interesting result - the expression equal to the product of the Black-Scholes Vega and the speed of the skew function with respect to $K$ looks structurally similar to the right-hand side of (4). With (7) in mind, we're ready to derive the skew-extended Black-Scholes K-Delta.
+\end{paragraph}
+
+{\small
+\begin{align*}
+\indent\indent \frac{\partial P}{\partial K}_{\hspace{1pt}\mathbf{\gamma}}   \hspace{3pt} =& \hspace{7pt}   \frac{\partial}{\partial K}(e^{-r \tau} *  K * \Phi(-d_{2_{\hspace{1pt} \gamma}}) - e^{-D \tau} * S_{t} * \Phi(-d_{1_{\hspace{1pt} \gamma}}))
+\\[12pt]
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \frac{\partial}{\partial K}(K * \Phi(-d_{2_{\hspace{1pt} \gamma}})) - e^{-D \tau} * S_{t} * \frac{\partial}{\partial K}(\Phi(-d_{1_{\hspace{1pt} \gamma}}))
+\\[12pt] \displaybreak
+\hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * (\Phi(-d_{2_{\hspace{1pt} \gamma}}) + K *  \frac{\partial \hspace{1pt} \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K}) - e^{-D \tau} * S_{t} * \frac{\partial \Phi(-d_{1_{\hspace{1pt} \gamma}})}{\partial K}
+\\
+\hspace{4pt} =& \hspace{7pt}   (e^{-r \tau} * \Phi(-d_{2_{\hspace{1pt} \gamma}})) + ( e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K} - e^{-D \tau} * S_{t} * \frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamma}})}{\partial \hspace{1pt} K})
+\\[25pt]
+\hspace{4pt} =& \hspace{7pt}   \frac{\partial P}{\partial K}_{BS} + \hspace{1pt} (\frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}) \hspace{3pt}. \hspace{235pt} (8)
+\end{align*}
+}
+
+\vspace{-5pt}
+
+\begin{paragraph}
+\indent Notice when the speed of the skew function is zero, as is the case in the unmodified model, the skew-extended K-Delta reduces to the BS K-Delta. We'll see the same principle at work in the expression for the skew-extended K-Gamma, but first another helpful formula:
+\end{paragraph}
+
+{\footnotesize
+\begin{align*}
+\frac{\partial (d_{2_{\hspace{1pt} \gamma}})}{\partial K}   \hspace{3pt} =& \hspace{7pt}   \frac{\partial}{\partial K} (\frac{ln(\frac{S}{K})+(r-D-\frac{\sigma(K)^{2}}{2}) * \tau}{\sigma(K) \sqrt{\tau}})
+\\[12pt]
+\hspace{3pt} =& \hspace{7pt}   \frac{\frac{\partial}{\partial K} (ln(\frac{S}{K})+(r-D-\frac{\sigma(K)^{2}}{2}) * \tau) * (\sigma(K) \sqrt{\tau}) - (ln(\frac{S}{K})+(r-D-\frac{\sigma(K)^{2}}{2}) * \tau) * \frac{\partial}{\partial K} (\sigma(K) \sqrt{\tau})}{(\sigma(K) \sqrt{\tau})^{2}}
+\\[12pt]
+\hspace{3pt} =& \hspace{7pt}   \frac{-(\frac{1}{K}) - (\sigma(K) * \frac{\partial \sigma(K)}{\partial K} * \tau)}{\sigma(K) \sqrt{\tau}} - \frac{(ln(\frac{S}{K})+(r-D-\frac{\sigma(K)^{2}}{2}) * \tau) * \frac{\partial \sigma(K)}{\partial K}}{\sigma(K) \sqrt{\tau} * \sigma(K)}
+\\[12pt]
+\hspace{3pt} =& \hspace{7pt}   -(\frac{1}{K \hspace{1pt} \sigma(K) \sqrt{\tau}}) - (\sigma(K) \sqrt{\tau}) * (\frac{\frac{\partial \sigma(K)}{\partial K}}{\sigma(K)}) - d_{2_{\hspace{1pt} \gamma}} * (\frac{\frac{\partial \sigma(K)}{\partial K}}{\sigma(K)})
+\\[12pt]
+\hspace{3pt} =& \hspace{7pt}   -(\frac{1}{K \hspace{1pt} \sigma(K) \sqrt{\tau}} + \frac{d_{1_{\hspace{1pt} \gamma}}}{\sigma(K)} * \frac{\partial \sigma(K)}{\partial K}) \hspace{3pt}. \hspace{248pt} (9)
+\end{align*}
+}
+
+\vspace{-5pt}
+
+\begin{paragraph}
+\indent To find the acceleration with respect to $K$, we'll subsititute for the Black-Scholes Greeks in (8) so as to be mindful that the differentiation still involves terms which are dependent on the skew function.
+\end{paragraph}
+
+{\small
+\begin{align*}
+\frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{\hspace{2pt} \gamma}   \hspace{3pt} &= \hspace{7pt}   \frac{\partial}{\partial K}(\hspace{2pt} (e^{-r \tau} * \Phi(-d_{2_{\hspace{1pt} \gamma}})) + ((e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \sqrt{\tau}) * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})) \hspace{2pt})
+\\[12pt]
+\hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * \frac{\partial}{\partial K}(\Phi(-d_{2_{\hspace{1pt} \gamma}})) + (e^{-r \tau} * \sqrt{\tau}) * \frac{\partial}{\partial K}(K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
+\\[35pt] \displaybreak
+\hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * \frac{\partial \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial K} + (e^{-r \tau} *  \sqrt{\tau}) * (\hspace{2pt}(\frac{\partial}{\partial K}(K) * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
+\\
+&+ \hspace{8pt}   (K * \frac{\partial}{\partial K}(\frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})}) * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
+\\[12pt]
+&+ \hspace{8pt}   (K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial}{\partial K}(\frac{\partial \hspace{1pt} \sigma(K)}{\partial K}))\hspace{2pt})
+\\[35pt]
+\hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * (\frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial (-d_{2_{\hspace{1pt} \gamma}})}{\partial K})
+\\[12pt]
+&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
+\\[12pt]
+&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * K * (\frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * -d_{2_{\hspace{1pt} \gamma}} * \frac{\partial (d_{2_{\hspace{1pt} \gamma}})}{\partial K}) * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
+\\[12pt]
+&+ \hspace{8pt}   (e^{-r \tau} * \sqrt{\tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})}) * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}}
+\\[35pt]
+\hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})} * (\frac{1}{K \hspace{1pt} \sigma(K) \sqrt{\tau}} + \frac{d_{1_{\hspace{1pt} \gamma}}}{\sigma(K)} * \frac{\partial \sigma(K)}{\partial K})
+\\[12pt]
+&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
+\\[12pt]
+&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * -d_{2_{\hspace{1pt} \gamma}} * -(\frac{1}{K \hspace{1pt} \sigma(K) \sqrt{\tau}} + \frac{d_{1_{\hspace{1pt} \gamma}}}{\sigma(K)} * \frac{\partial \sigma(K)}{\partial K}) * \frac{\partial \sigma(K)}{\partial K}
+\\[12pt]
+&+ \hspace{8pt}   \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}}
+\\[35pt]
+\hspace{3pt} &= \hspace{7pt}   (e^{-r \tau} * \frac{\frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})}}{K \hspace{1pt} \sigma(K) \sqrt{\tau}}) + (e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{1_{\hspace{1pt} \gamma}}}{\sigma(K)}) * \frac{\partial \sigma(K)}{\partial K}
+\\[12pt]
+&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
+\\[12pt] \displaybreak
+&+ \hspace{8pt}   (e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}) + (\hspace{1pt} e^{-r \tau} * \sqrt{\tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{1_{\hspace{1pt} \gamma}} d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)} * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})^{2} \hspace{1pt})
+\\
+&+ \hspace{8pt}   \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}}
+\\[35pt]
+\hspace{3pt} &= \hspace{7pt}   \frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{BS} + (\frac{\partial^{\hspace{2pt} 2} P}{\partial K \partial \sigma}_{BS} * \frac{\partial \sigma(K)}{\partial K})
+\\[12pt]
+&+ \hspace{8pt}   (e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})} * (\sqrt{\tau} + \frac{d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)})) * \frac{\partial \sigma(K)}{\partial K}
+\\[12pt]
+&+ \hspace{8pt}   \frac{\partial^{\hspace{2pt} 2} P}{\partial \sigma^{\hspace{1pt} 2}}_{BS} * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})^{2} + \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}}
+\\[35pt]
+\hspace{3pt} &= \hspace{7pt}   \frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{BS} + (\hspace{2pt} 2*\frac{\partial^{\hspace{2pt} 2} P}{\partial K \partial \sigma}_{BS} * \frac{\partial \sigma(K)}{\partial K} + \frac{\partial^{\hspace{2pt} 2} P}{\partial \sigma^{\hspace{1pt} 2}}_{BS} * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})^{2} + \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}} \hspace{2pt}) \hspace{3pt}. \hspace{15pt} (10)
+\end{align*}
+}
+
+\begin{paragraph}
+\indent Once again, the derivative reduces to its Black-Scholes counterpart when the skew slope vanishes. The risk-neutral terminal density that follows from (10) is given by:  
+\end{paragraph}
+
+{\footnotesize
+\begin{align*}
+p(K)_{\hspace{2pt} \gamma}   \hspace{3pt} &= \hspace{7pt}   e^{r \tau} * \frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{\hspace{2pt} \gamma}
+\\[12pt]
+\hspace{3pt} &= \hspace{7pt}   e^{r \tau} * (\hspace{1pt} \frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{BS} + (\hspace{2pt} 2*\frac{\partial^{\hspace{2pt} 2} P}{\partial K \partial \sigma}_{BS} * \frac{\partial \sigma(K)}{\partial K} + \frac{\partial^{\hspace{2pt} 2} P}{\partial \sigma^{\hspace{1pt} 2}}_{BS} * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})^{2} + \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}} \hspace{2pt}) \hspace{1pt}) \hspace{3pt}. \hspace{15pt} (11)
+\end{align*}
+}
+
+\vspace{-15pt}
+
+\begin{paragraph}
+\indent In practice, the space over $K$ is discontinuous and sparse. To make use of (11), a twice-differentiable model for the volatility as a function of strike is needed. There are various approaches to this problem, but all of them are well beyond the scope of these notes. Readers interested in exploring this topic further might want to read Figlewski's ``Estimating the Implied Risk Neutral Density for the U.S. Market Portfolio" (2008).
+\end{paragraph}
+
+\vspace{15pt}
+
+\section*{\large III. \indent Approximating K-Deltas and K-Gammas Numerically}
+
+\vspace{15pt}
+
+\begin{paragraph}
+\indent Central Differences can be used to approximate the first and second derivatives of the function $P(K)$. The following expressions can also be derived via Taylor series, but the method below takes a simpler approach. We have:
+\end{paragraph}
+
+
+
+
+
+
+\end{document}
