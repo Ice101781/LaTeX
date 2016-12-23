@@ -9,7 +9,7 @@
 \maketitle
 
 \begin{paragraph}
-\indent \small These notes attempt to make accessible to the technically-curious retail trader the derivations of some expressions for the first and second derivatives of the European-style put option price with respect to strike. An understanding of these formulas is the basis for further study into options-implied Black-Scholes risk-neutral distributions. Sections I and II find formulas for the ``Strike-Delta'' (K-Delta) and ``Strike-Gamma'' (K-Gamma) in the contexts of Martingale Pricing and the Black-Scholes-Merton Pricing Model, respectively. The last section applies the method of finite-differencing to yield a third pair of identities which can be used to approximate these Greeks.
+\indent \small These notes attempt to make accessible to the technically-curious retail trader some expressions for the first and second derivatives of the European-style put option price with respect to strike. An understanding of these formulas is the basis for further study into options-implied Black-Scholes risk-neutral distributions. Sections I and II find formulas for the ``Strike-Delta'' (K-Delta) and ``Strike-Gamma'' (K-Gamma) in the contexts of Martingale Pricing and the Black-Scholes-Merton Pricing Model, respectively. The last section applies the method of finite-differencing to yield a third pair of identities which can be used to approximate these Greeks.
 \end{paragraph}
 
 \vspace{300pt}
@@ -32,7 +32,7 @@
 
 \begin{equation}
 \begin{aligned}[b]
-P(K)_{\hspace{1pt} \mathbf{Q}}   \hspace{4pt} \equiv& \hspace{7pt}   P(K, S_{T}, \tau, r)
+P(K, S_{T}, \tau, r)   \hspace{4pt} \equiv& \hspace{7pt}   P(K)_{\hspace{1pt} \mathbf{Q}}   
 \\[12pt]
 \hspace{4pt} =& \hspace{7pt}   e^{-r \tau} * \mathbf{E^{Q}}[\hspace{2pt} max(K-S_{T},0) \hspace{2pt}] \hspace{3pt}.
 \end{aligned}
@@ -79,7 +79,7 @@ P(K)_{\hspace{1pt} \mathbf{Q}}   \hspace{4pt} \equiv& \hspace{7pt}   P(K, S_{T},
 \vspace{5pt}
 
 \begin{paragraph}
-\indent The expression for the second derivative follows directly from the fundamental theorem of calculus: the K-gamma is the discounted risk-neutral terminal PDF value at $K$.
+\indent The expression for the second derivative follows directly from the fundamental theorem of calculus. The K-gamma is the discounted risk-neutral terminal PDF value at $K$.
 \end{paragraph}
 
 \begin{paragraph}
@@ -100,7 +100,7 @@ P(K)_{\hspace{1pt} \mathbf{Q}}   \hspace{4pt} \equiv& \hspace{7pt}   P(K, S_{T},
 
 \begin{equation}
 \begin{aligned}[b]
-P(K)_{\hspace{1pt} \gamma}   \hspace{4pt} \equiv& \hspace{7pt}   P(K, S_{t}, \tau, r, \sigma(K), D)
+P(K, S_{t}, \tau, r, \sigma(K), D)   \hspace{4pt} \equiv& \hspace{7pt}   P(K)_{\hspace{1pt} \gamma}
 \\[12pt]
 \hspace{4pt} =& \hspace{7pt}   e^{-r \tau} *  K * \Phi(-d_{2_{\hspace{1pt} \gamma}}) - e^{-D \tau} * S_{t} * \Phi(-d_{1_{\hspace{1pt} \gamma}}) \hspace{3pt},
 \end{aligned}
@@ -171,7 +171,7 @@ e^{-D \tau} * S_{t} * \frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamm
 \vspace{-5pt}
 
 \begin{paragraph}
-\indent An interesting result - the expression equal to the product of the Black-Scholes Vega and the speed of the skew function with respect to $K$ looks structurally similar to the right-hand side of (4). With (7) in mind, we're ready to derive the skew-extended Black-Scholes K-Delta.
+\indent An interesting result - the expression equal to the product of the Black-Scholes Vega and the speed of the skew function looks structurally similar to the right-hand side of (4). With (7) in mind, we're ready to derive the skew-extended Black-Scholes K-Delta.
 \end{paragraph}
 
 {\small
@@ -211,17 +211,19 @@ e^{-D \tau} * S_{t} * \frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamm
 \vspace{-5pt}
 
 \begin{paragraph}
-\indent To find the acceleration with respect to $K$, we'll subsititute for the Black-Scholes Greeks in (8) so as to be mindful that the differentiation still involves terms which are dependent on the skew function.
+\indent To find the acceleration of the put price with respect to $K$, we'll subsititute for the Black-Scholes Greeks in (8), mindful that the differentiation still involves terms which are dependent on the skew function.
 \end{paragraph}
 
 {\small
 \begin{align*}
-\frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{\hspace{2pt} \gamma}   \hspace{3pt} &= \hspace{7pt}   \frac{\partial}{\partial K}(\hspace{2pt} (e^{-r \tau} * \Phi(-d_{2_{\hspace{1pt} \gamma}})) + ((e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \sqrt{\tau}) * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})) \hspace{2pt})
+\frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{\hspace{2pt} \gamma}   \hspace{3pt} &= \hspace{7pt}  \frac{\partial}{\partial K}(\hspace{2pt} \frac{\partial P}{\partial K}_{BS} + \hspace{1pt} (\frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}) \hspace{2pt})
 \\[12pt]
+\hspace{3pt} &= \hspace{7pt}   \frac{\partial}{\partial K}(\hspace{2pt} (e^{-r \tau} * \Phi(-d_{2_{\hspace{1pt} \gamma}})) + ((e^{-r \tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \sqrt{\tau}) * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}) \hspace{2pt})
+\\[12pt] \displaybreak
 \hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * \frac{\partial}{\partial K}(\Phi(-d_{2_{\hspace{1pt} \gamma}})) + (e^{-r \tau} * \sqrt{\tau}) * \frac{\partial}{\partial K}(K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
-\\[35pt] \displaybreak
-\hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * \frac{\partial \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial K} + (e^{-r \tau} *  \sqrt{\tau}) * (\hspace{2pt}(\frac{\partial}{\partial K}(K) * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
 \\
+\hspace{3pt} &= \hspace{7pt}   e^{-r \tau} * \frac{\partial \Phi(-d_{2_{\hspace{1pt} \gamma}})}{\partial K} + (e^{-r \tau} *  \sqrt{\tau}) * (\hspace{2pt}(\frac{\partial}{\partial K}(K) * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
+\\[12pt]
 &+ \hspace{8pt}   (K * \frac{\partial}{\partial K}(\frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})}) * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K})
 \\[12pt]
 &+ \hspace{8pt}   (K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial}{\partial K}(\frac{\partial \hspace{1pt} \sigma(K)}{\partial K}))\hspace{2pt})
@@ -275,7 +277,7 @@ p(K)_{\hspace{2pt} \gamma}   \hspace{3pt} &= \hspace{7pt}   e^{r \tau} * \frac{\
 \vspace{-15pt}
 
 \begin{paragraph}
-\indent In practice, the space over $K$ is discontinuous and sparse. To make use of (11), a twice-differentiable model for the volatility as a function of strike is needed. There are various approaches to this problem, but all of them are well beyond the scope of these notes. Readers interested in exploring this topic further might want to read Figlewski's ``Estimating the Implied Risk Neutral Density for the U.S. Market Portfolio" (2008).
+\indent In practice, the space over $K$ is discontinuous and sparse. To make use of (11), a twice-differentiable model for the volatility as a function of strike is needed. There are various approaches to this problem, but all of them are well beyond the scope of these notes. Readers interested in exploring the topic further might want to read Gatheral (2004).
 \end{paragraph}
 
 \vspace{15pt}
@@ -288,9 +290,38 @@ p(K)_{\hspace{2pt} \gamma}   \hspace{3pt} &= \hspace{7pt}   e^{r \tau} * \frac{\
 \indent Central Differences can be used to approximate the first and second derivatives of the function $P(K)$. The following expressions can also be derived via Taylor series, but the method below takes a simpler approach. We have:
 \end{paragraph}
 
+{\small
+\begin{align*}
+\frac{\partial P}{\partial K}   \hspace{4pt} &= \hspace{7pt}   P\hspace{1pt}'(K)
+\\[20pt]
+\hspace{4pt} &\approx \hspace{7pt}   \frac{\frac{P(K+\Delta K)-P(K)}{(K+\Delta K)-K} + \frac{P(K)-P(K-\Delta K)}{K-(K-\Delta K)}}{2}
+\\[20pt]
+\hspace{4pt} &= \hspace{7pt}   \frac{P(K+\Delta K)-P(K-\Delta K)}{2*\Delta K} \hspace{3pt}. \hspace{260pt} (12)
+\end{align*}
+}
 
+\begin{paragraph}
+\indent The put Strike-Delta can be estimated using a scaled debit spread. For the Strike-Gamma, we'll choose the strike width to be $\frac{\Delta K}{2}$ instead of $\Delta K$ so that the approximation remains centered on $K$.
+\end{paragraph}
 
+{\footnotesize
+\begin{align*}
+\frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}   \hspace{4pt} &= \hspace{7pt}   P\hspace{1pt}''(K)
+\\[20pt]
+\hspace{4pt} &\approx \hspace{7pt}   \frac{\frac{P\hspace{1pt}'(K + \frac{\Delta K}{2}) - P\hspace{1pt}'(K)}{(K + \frac{\Delta K}{2}) - K} + \frac{P\hspace{1pt}'(K) - P\hspace{1pt}'(K - \frac{\Delta K}{2})}{K - (K - \frac{\Delta K}{2})}}{2}
+\\[20pt]
+\hspace{4pt} &= \hspace{7pt}   \frac{P\hspace{1pt}'(K + \frac{\Delta K}{2}) - P\hspace{1pt}'(K - \frac{\Delta K}{2})}{\Delta K}
+\\[20pt]
+\hspace{4pt} &= \hspace{7pt}   \frac{\frac{\frac{P(K+\frac{\Delta K}{2}+(\frac{\Delta K}{2}))-P(K+\frac{\Delta K}{2})}{K+\frac{\Delta K}{2}+(\frac{\Delta K}{2})-(K+\frac{\Delta K}{2})} + \frac{P(K+\frac{\Delta K}{2})-P(K+\frac{\Delta K}{2}-(\frac{\Delta K}{2}))}{K+\frac{\Delta K}{2}-(K+\frac{\Delta K}{2}-(\frac{\Delta K}{2}))}}{2} - \frac{\frac{P(K-\frac{\Delta K}{2}+(\frac{\Delta K}{2}))-P(K-\frac{\Delta K}{2})}{K-\frac{\Delta K}{2}+(\frac{\Delta K}{2})-(K-\frac{\Delta K}{2})} + \frac{P(K-\frac{\Delta K}{2})-P(K-\frac{\Delta K}{2}-(\frac{\Delta K}{2}))}{K-\frac{\Delta K}{2}-(K-\frac{\Delta K}{2}-(\frac{\Delta K}{2}))}}{2}}{\Delta K}
+\\[20pt]
+\hspace{4pt} &= \hspace{7pt}   \frac{\frac{P(K + \Delta K)-P(K)}{\Delta K} - \frac{P(K)-P(K - \Delta K)}{\Delta K}}{\Delta K}
+\\[20pt]
+\hspace{4pt} &= \hspace{7pt}   \frac{P(K + \Delta K) - 2*P(K) + P(K - \Delta K)}{(\Delta K)^{2}} \hspace{3pt}. \hspace{220pt} (13)
+\end{align*}
+}
 
-
+\begin{paragraph}
+\indent The Strike-Gamma, or terminal density value, can be estimated using a scaled butterfly spread.
+\end{paragraph}
 
 \end{document}
