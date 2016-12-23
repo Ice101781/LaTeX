@@ -124,13 +124,13 @@ where
 and
 \end{flushleft}
 
-\vspace{-25pt}
+\vspace{-15pt}
 
 \begin{flalign}
 \indent d_{1_{\hspace{1pt} \gamma}}   \hspace{2pt} = \hspace{4pt}   \frac{ln(\frac{S_{t}}{K}) + (r-D+\frac{\sigma(K)^{2}}{2}) * \tau}{\sigma(K) \sqrt{\tau}}   \hspace{2pt} = \hspace{4pt}   d_{2_{\hspace{1pt} \gamma}} + \sigma(K) \sqrt{\tau} \hspace{3pt}. &&
 \end{flalign}
 
-\vspace{7pt}
+\vspace{5pt}
 
 \begin{paragraph}
 \indent Before finding the Strike-Delta in this framework, we'll establish a useful relationship involving a derivative of (5) and (6).
@@ -245,11 +245,11 @@ e^{-D \tau} * S_{t} * \frac{\partial \hspace{1pt} \Phi(-d_{1_{\hspace{1pt} \gamm
 &+ \hspace{8pt}   \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}}
 \\[35pt]
 \hspace{3pt} &= \hspace{7pt}   (e^{-r \tau} * \frac{\frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})}}{K \hspace{1pt} \sigma(K) \sqrt{\tau}}) + (e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (-d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{1_{\hspace{1pt} \gamma}}}{\sigma(K)}) * \frac{\partial \sigma(K)}{\partial K}
-\\[12pt]
-&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
 \\[12pt] \displaybreak
-&+ \hspace{8pt}   (e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}) + (\hspace{1pt} e^{-r \tau} * \sqrt{\tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{1_{\hspace{1pt} \gamma}} d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)} * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})^{2} \hspace{1pt})
+&+ \hspace{8pt}   e^{-r \tau} * \sqrt{\tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}
 \\
+&+ \hspace{8pt}   (e^{-r \tau} * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)} * \frac{\partial \hspace{1pt} \sigma(K)}{\partial K}) + (\hspace{1pt} e^{-r \tau} * \sqrt{\tau} * K * \frac{\partial \hspace{1pt} \Phi}{\partial (d_{2_{\hspace{1pt} \gamma}})} * \frac{d_{1_{\hspace{1pt} \gamma}} d_{2_{\hspace{1pt} \gamma}}}{\sigma(K)} * (\frac{\partial \hspace{1pt} \sigma(K)}{\partial K})^{2} \hspace{1pt})
+\\[12pt]
 &+ \hspace{8pt}   \frac{\partial P}{\partial \sigma}_{\hspace{-1pt} BS} * \frac{\partial^{\hspace{1pt} 2} \hspace{1pt} \sigma(K)}{\partial K^{\hspace{1pt} 2}}
 \\[35pt]
 \hspace{3pt} &= \hspace{7pt}   \frac{\partial^{\hspace{2pt} 2} P}{\partial K^{\hspace{1pt} 2}}_{BS} + (\frac{\partial^{\hspace{2pt} 2} P}{\partial K \partial \sigma}_{BS} * \frac{\partial \sigma(K)}{\partial K})
