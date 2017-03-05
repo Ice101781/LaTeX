@@ -1,2 +1,4 @@
-####K-Deltas and K-Gammas .pdf :
-&nbsp;&nbsp; *https://docs.google.com/uc?export=download&id=0B3rehuqgDPeVSDZ0MGVyam5VdVk*
+<a href="https://docs.google.com/uc?export=download&id=0B3rehuqgDPeVSDZ0MGVyam5VdVk">Expressions for Strike-Deltas and Strike-Gammas of European-style Put Options</a>
+===
+
+&nbsp; These notes attempt to make accessible to the technically-curious retail trader some expressions for the first and second derivatives of the European-style put option price with respect to strike. An understanding of these formulas is the basis for further study into options-implied Black-Scholes risk-neutral distributions. Sections I and II find formulas for the 'Strike-Delta' (K-Delta) and 'Strike-Gamma' (K-Gamma) in the contexts of Martingale Pricing and the Black-Scholes-Merton Pricing Model, respectively. The last section applies the method of finite-differencing to yield a third pair of identities which can be used to approximate these Greeks.
